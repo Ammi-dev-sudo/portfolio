@@ -11,3 +11,5 @@ python-dotenv>=1.0
 PyMySQL>=1.1
 # PostgreSQL (psycopg 3, wheels binaires précompilés)
 psycopg[binary]>=3.2
+gunicorn>=23.0
+dj-database-url>=2.2
