@@ -1,6 +1,10 @@
 import axios from 'axios'
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
+const configuredApiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
+const normalizedApiUrl = configuredApiUrl.replace(/\/+$/, '')
+const API_BASE_URL = /\/api$/i.test(normalizedApiUrl)
+  ? normalizedApiUrl
+  : `${normalizedApiUrl}/api`
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -12,6 +16,7 @@ const api = axios.create({
 export const projectsAPI = {
   getAll: (params = {}) => api.get('/projects/', { params }),
   getBySlug: (slug) => api.get(`/projects/${slug}/`),
+  getTechnologies: () => api.get('/projects/technologies/'),
 }
 
 export const contactAPI = {

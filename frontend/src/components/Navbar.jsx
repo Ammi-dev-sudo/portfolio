@@ -13,20 +13,20 @@ const Navbar = () => {
   ]
 
   return (
-    <nav className="sticky top-0 z-50 bg-neutral-950/80 backdrop-blur border-b border-neutral-800">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16 items-center">
-          <Link to="/" className="text-xl font-bold tracking-tight">
-            AJ<span className="text-cyan-400">.</span>Dev
+    <nav className="sticky top-0 z-50 border-b border-neutral-800 bg-neutral-950/80 backdrop-blur-xl">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="flex h-16 items-center justify-between">
+          <Link to="/" className="text-lg font-black tracking-tight text-white sm:text-xl">
+            Ammi<span className="text-cyan-400">Joda</span>
           </Link>
 
-          <div className="hidden md:flex space-x-8">
+          <div className="hidden items-center gap-8 md:flex">
             {navLinks.map((link) => (
               <NavLink
                 key={link.path}
                 to={link.path}
                 className={({ isActive }) =>
-                  `text-sm transition-colors hover:text-cyan-400 ${
+                  `text-sm font-medium transition-colors hover:text-cyan-400 ${
                     isActive ? 'text-cyan-400' : 'text-neutral-300'
                   }`
                 }
@@ -37,7 +37,7 @@ const Navbar = () => {
           </div>
 
           <button
-            className="md:hidden text-neutral-300"
+            className="rounded-md p-2 text-neutral-300 transition hover:text-cyan-400 md:hidden"
             onClick={() => setIsOpen(!isOpen)}
             aria-label="Menu"
           >
@@ -47,16 +47,16 @@ const Navbar = () => {
       </div>
 
       {isOpen && (
-        <div className="md:hidden border-t border-neutral-800 bg-neutral-950">
-          <div className="px-4 py-3 space-y-2">
+        <div className="border-t border-neutral-800 bg-neutral-950 md:hidden">
+          <div className="space-y-2 px-4 py-3">
             {navLinks.map((link) => (
               <NavLink
                 key={link.path}
                 to={link.path}
                 onClick={() => setIsOpen(false)}
                 className={({ isActive }) =>
-                  `block text-sm py-2 transition-colors hover:text-cyan-400 ${
-                    isActive ? 'text-cyan-400' : 'text-neutral-300'
+                  `block rounded-lg px-3 py-2 text-sm transition-colors hover:text-cyan-400 ${
+                    isActive ? 'bg-cyan-500/10 text-cyan-400' : 'text-neutral-300'
                   }`
                 }
               >

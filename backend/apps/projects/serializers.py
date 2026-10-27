@@ -1,45 +1,72 @@
 from rest_framework import serializers
+
 from .models import Project, ProjectImage, Technology
 
 
 class TechnologySerializer(serializers.ModelSerializer):
     class Meta:
         model = Technology
-        fields = ['id', 'name', 'order']
+        fields = ["id", "name", "order"]
 
 
 class ProjectImageSerializer(serializers.ModelSerializer):
-    image = serializers.ImageField(use_url=True)
+    image = serializers.SerializerMethodField()
 
     class Meta:
         model = ProjectImage
-        fields = ['id', 'image', 'caption', 'order']
+        fields = ["id", "image", "caption", "order"]
+
+    def get_image(self, obj):
+        request = self.context.get("request")
+
+        if obj.image and request:
+            return request.build_absolute_uri(obj.image.url)
+
+        return None
 
 
 class ProjectListSerializer(serializers.ModelSerializer):
-    thumbnail = serializers.ImageField(use_url=True)
+    thumbnail = serializers.SerializerMethodField()
     technologies = TechnologySerializer(many=True, read_only=True)
 
     class Meta:
         model = Project
         fields = [
-            'id', 'title', 'slug', 'project_type', 'short_description', 'thumbnail',
-            'technologies', 'demo_url', 'github_url', 'year',
-            'is_featured', 'is_published', 'order', 'tags'
+            "id",
+            "title",
+            "project_type",
+            "slug",
+            "short_description",
+            "thumbnail",
+            "technologies",
+            "role",
+            "client",
+            "demo_url",
+            "github_url",
+            "project_url",
+            "year",
+            "start_date",
+            "end_date",
+            "is_featured",
+            "tags",
+            "created_at",
+            "updated_at",
         ]
 
+    def get_thumbnail(self, obj):
+        request = self.context.get("request")
 
-class ProjectDetailSerializer(serializers.ModelSerializer):
-    thumbnail = serializers.ImageField(use_url=True)
+        if obj.thumbnail and request:
+            return request.build_absolute_uri(obj.thumbnail.url)
+
+        return None
+
+
+class ProjectDetailSerializer(ProjectListSerializer):
     images = ProjectImageSerializer(many=True, read_only=True)
-    technologies = TechnologySerializer(many=True, read_only=True)
 
-    class Meta:
-        model = Project
-        fields = [
-            'id', 'title', 'slug', 'project_type', 'short_description', 'description',
-            'thumbnail', 'images', 'technologies', 'role', 'client',
-            'demo_url', 'github_url', 'project_url', 'year', 'start_date',
-            'end_date', 'is_featured', 'is_published', 'order', 'tags',
-            'created_at', 'updated_at'
+    class Meta(ProjectListSerializer.Meta):
+        fields = ProjectListSerializer.Meta.fields + [
+            "description",
+            "images",
         ]

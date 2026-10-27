@@ -4,17 +4,13 @@ import os
 from dotenv import load_dotenv
 import dj_database_url
 
-
 # ============================================================
 # 1. CHEMINS ET VARIABLES D'ENVIRONNEMENT
 # ============================================================
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Charge le fichier .env local s'il existe.
-# Les variables déjà définies dans l'environnement sont conservées.
 load_dotenv(BASE_DIR / ".env")
-
 
 # ============================================================
 # 2. SÉCURITÉ DJANGO
@@ -27,8 +23,6 @@ SECRET_KEY = os.getenv(
 
 DEBUG = os.getenv("DEBUG", "False").strip().lower() == "true"
 
-# Exemple :
-# ALLOWED_HOSTS=localhost,127.0.0.1,mon-service.onrender.com
 ALLOWED_HOSTS = [
     host.strip()
     for host in os.getenv(
@@ -38,6 +32,10 @@ ALLOWED_HOSTS = [
     if host.strip()
 ]
 
+# Render ajoute automatiquement cette variable.
+RENDER_EXTERNAL_HOSTNAME = os.getenv("RENDER_EXTERNAL_HOSTNAME")
+if RENDER_EXTERNAL_HOSTNAME:
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
 # ============================================================
 # 3. APPLICATIONS DJANGO
@@ -62,14 +60,15 @@ INSTALLED_APPS = [
     "apps.contact.apps.ContactConfig",
 ]
 
-
 # ============================================================
 # 4. MIDDLEWARE
 # ============================================================
 
 MIDDLEWARE = [
-    "django.middleware.security.SecurityMiddleware",
     "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
+
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -77,11 +76,6 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
-
-
-# ============================================================
-# 5. CONFIGURATION GÉNÉRALE
-# ============================================================
 
 ROOT_URLCONF = "core.urls"
 
@@ -103,22 +97,14 @@ TEMPLATES = [
     },
 ]
 
-
 # ============================================================
-# 6. BASE DE DONNÉES
+# 5. BASE DE DONNÉES
 # ============================================================
-
-# Priorité :
-# 1. DATABASE_URL : PostgreSQL hébergé, par exemple sur Neon.
-# 2. DB_ENGINE=mysql : MySQL.
-# 3. DB_ENGINE=postgresql : PostgreSQL avec variables séparées.
-# 4. Sinon : SQLite local.
 
 DATABASE_URL = os.getenv("DATABASE_URL", "").strip()
 DB_ENGINE = os.getenv("DB_ENGINE", "sqlite3").strip().lower()
 
 if DATABASE_URL:
-    # Connexion à une base hébergée.
     DATABASES = {
         "default": dj_database_url.parse(
             DATABASE_URL,
@@ -158,8 +144,6 @@ elif DB_ENGINE == "postgresql":
     }
 
 else:
-    # Base locale : aucune migration de données n'est nécessaire
-    # pour utiliser le fichier SQLite existant.
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
@@ -167,41 +151,27 @@ else:
         }
     }
 
-
 # ============================================================
-# 7. VALIDATION DES MOTS DE PASSE
+# 6. VALIDATION DES MOTS DE PASSE
 # ============================================================
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        "NAME": (
-            "django.contrib.auth.password_validation."
-            "UserAttributeSimilarityValidator"
-        ),
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
     {
-        "NAME": (
-            "django.contrib.auth.password_validation."
-            "MinimumLengthValidator"
-        ),
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
     },
     {
-        "NAME": (
-            "django.contrib.auth.password_validation."
-            "CommonPasswordValidator"
-        ),
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
     },
     {
-        "NAME": (
-            "django.contrib.auth.password_validation."
-            "NumericPasswordValidator"
-        ),
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
 
-
 # ============================================================
-# 8. LANGUE ET HEURE
+# 7. LANGUE ET HEURE
 # ============================================================
 
 LANGUAGE_CODE = "fr-fr"
@@ -212,36 +182,47 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # ============================================================
-# 9. FICHIERS STATIQUES ET IMAGES
+# 8. FICHIERS STATIQUES ET IMAGES
 # ============================================================
 
 STATIC_URL = "/static/"
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
+
 MEDIA_URL = "/media/"
 
 MEDIA_ROOT = BASE_DIR / "media"
 
-
 # ============================================================
-# 10. CONFIGURATION DES CLÉS PRIMAIRES
-# ============================================================
-
-DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
-
-# ============================================================
-# 11. CONFIGURATION CORS POUR REACT
+# 9. DJANGO REST FRAMEWORK
 # ============================================================
 
-# Ajoute ici l'URL exacte de ton frontend Vercel dans Render :
-# FRONTEND_URL=https://ton-portfolio.vercel.app
-# Plusieurs URL peuvent être séparées par des virgules.
+REST_FRAMEWORK = {
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 12,
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.AllowAny",
+    ],
+}
 
-FRONTEND_URLS = os.getenv("FRONTEND_URL", "")
+# ============================================================
+# 10. CORS POUR REACT / VERCEL
+# ============================================================
+
+FRONTEND_URLS = os.getenv(
+    "FRONTEND_URL",
+    "https://portfolio-git-main-acme-8eb4.vercel.app"
+)
 
 CORS_ALLOWED_ORIGINS = [
     url.strip().rstrip("/")
@@ -249,29 +230,32 @@ CORS_ALLOWED_ORIGINS = [
     if url.strip()
 ]
 
-# Autorise les adresses locales pour le développement.
 CORS_ALLOWED_ORIGINS += [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
 ]
 
-# Ne pas autoriser toutes les origines en production.
+CORS_ALLOW_CREDENTIALS = True
+
 CORS_ALLOW_ALL_ORIGINS = DEBUG
 
-
 # ============================================================
-# 12. PROTECTION CSRF
+# 11. CSRF
 # ============================================================
 
 CSRF_TRUSTED_ORIGINS = [
     url.strip().rstrip("/")
-    for url in os.getenv("CSRF_TRUSTED_ORIGINS", "").split(",")
+    for url in os.getenv(
+        "CSRF_TRUSTED_ORIGINS",
+        "https://portfolio-git-main-acme-8eb4.vercel.app"
+    ).split(",")
     if url.strip()
 ]
 
-
 # ============================================================
-# 13. CONFIGURATION PRODUCTION
+# 12. PRODUCTION
 # ============================================================
 
 if not DEBUG:
@@ -279,5 +263,6 @@ if not DEBUG:
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
 
-    # Render utilise un proxy HTTPS.
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"

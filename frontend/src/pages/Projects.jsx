@@ -1,26 +1,34 @@
 import { useEffect, useState } from 'react'
-import { projectsAPI } from '../services/api'
+import { getProjects } from '../services/projectService'
 import ProjectCard from '../components/ProjectCard'
 import { Search, Filter } from 'lucide-react'
 
 const Projects = () => {
   const [projects, setProjects] = useState([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedYear, setSelectedYear] = useState('')
 
   useEffect(() => {
+    let isActive = true
+
     const fetchProjects = async () => {
       try {
-        const response = await projectsAPI.getAll()
-        setProjects(response.data)
-      } catch (error) {
-        console.error('Erreur lors du chargement des projets:', error)
+        const data = await getProjects()
+        if (isActive) setProjects(data)
+      } catch (err) {
+        if (isActive) setError(err.message)
       } finally {
-        setLoading(false)
+        if (isActive) setLoading(false)
       }
     }
+
     fetchProjects()
+
+    return () => {
+      isActive = false
+    }
   }, [])
 
   const filteredProjects = projects.filter((project) => {
@@ -77,6 +85,10 @@ const Projects = () => {
             <div key={n} className="border border-neutral-800 rounded-lg h-80 bg-neutral-900/30 animate-pulse" />
           ))}
         </div>
+      ) : error ? (
+        <div className="text-center py-16 text-red-400">
+          <p>Impossible de charger les projets : {error}</p>
+        </div>
       ) : filteredProjects.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredProjects.map((project) => (
@@ -85,7 +97,11 @@ const Projects = () => {
         </div>
       ) : (
         <div className="text-center py-16 text-neutral-500">
-          <p>Aucun projet ne correspond à votre recherche.</p>
+          <p>
+            {projects.length === 0
+              ? 'Aucun projet n’est disponible pour le moment.'
+              : 'Aucun projet ne correspond à votre recherche.'}
+          </p>
         </div>
       )}
     </div>

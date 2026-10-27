@@ -1,7 +1,26 @@
 from django.urls import path
-from .views import ProjectListView, ProjectDetailView
+
+from .views import (
+    ProjectDetailAPIView,
+    ProjectListAPIView,
+    TechnologyListAPIView,
+)
+
 
 urlpatterns = [
-    path('', ProjectListView.as_view(), name='project-list'),
-    path('<slug:slug>/', ProjectDetailView.as_view(), name='project-detail'),
+    path(
+        "",
+        ProjectListAPIView.as_view(),
+        name="project-list",
+    ),
+    path(
+        "<slug:slug>/",
+        ProjectDetailAPIView.as_view(),
+        name="project-detail",
+    ),
+    path(
+        "technologies/",
+        TechnologyListAPIView.as_view(),
+        name="technology-list",
+    ),
 ]

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { ArrowLeft, ExternalLink, Calendar, User, Briefcase } from 'lucide-react'
 import GithubIcon from '../components/GithubIcon'
-import { projectsAPI } from '../services/api'
+import { getProjectBySlug } from '../services/projectService'
 
 const TYPE_LABELS = {
   web: 'Web',
@@ -19,17 +19,33 @@ const ProjectDetail = () => {
   const [error, setError] = useState(null)
 
   useEffect(() => {
+    let isActive = true
+
     const fetchProject = async () => {
       try {
-        const response = await projectsAPI.getBySlug(slug)
-        setProject(response.data)
-      } catch {
-        setError('Projet introuvable')
+        setLoading(true)
+        setProject(null)
+        setError(null)
+        const data = await getProjectBySlug(slug)
+        if (isActive) setProject(data)
+      } catch (err) {
+        if (isActive) {
+          setError(
+            err.status === 404
+              ? 'Projet introuvable'
+              : `Impossible de charger ce projet : ${err.message}`
+          )
+        }
       } finally {
-        setLoading(false)
+        if (isActive) setLoading(false)
       }
     }
+
     fetchProject()
+
+    return () => {
+      isActive = false
+    }
   }, [slug])
 
   if (loading) {
@@ -52,7 +68,7 @@ const ProjectDetail = () => {
   if (error || !project) {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center">
-        <h1 className="text-2xl font-bold mb-4">Projet introuvable</h1>
+        <h1 className="text-2xl font-bold mb-4">{error || 'Projet introuvable'}</h1>
         <Link to="/projects" className="text-cyan-400 hover:text-cyan-300 inline-flex items-center gap-2">
           <ArrowLeft size={18} />
           Retour aux projets

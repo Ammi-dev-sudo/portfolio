@@ -1,87 +1,70 @@
 import { useEffect, useState } from 'react'
-import ProjectCard from './ProjectCard'
 import { getProjects } from '../services/projectService'
+import ProjectCard from './ProjectCard'
 
-const ProjectsList = ({ title = 'Mes projets', limit = null, className = '' }) => {
+const ProjectsList = () => {
   const [projects, setProjects] = useState([])
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
+  const [error, setError] = useState(null)
 
   useEffect(() => {
-    let isMounted = true
+    let isActive = true
 
-    const fetchProjects = async () => {
-      setLoading(true)
-      setError('')
-
-      try {
-        const data = await getProjects()
-        const allProjects = Array.isArray(data) ? data : data.results || []
-        const visibleProjects = limit ? allProjects.slice(0, limit) : allProjects
-
-        if (isMounted) {
-          setProjects(visibleProjects)
-        }
-      } catch (err) {
-        if (isMounted) {
-          setError(err.message || 'Impossible de charger les projets.')
-        }
-      } finally {
-        if (isMounted) {
-          setLoading(false)
-        }
-      }
-    }
-
-    fetchProjects()
+    getProjects()
+      .then((data) => {
+        if (isActive) setProjects(data)
+      })
+      .catch((err) => {
+        if (isActive) setError(err.message)
+      })
+      .finally(() => {
+        if (isActive) setLoading(false)
+      })
 
     return () => {
-      isMounted = false
+      isActive = false
     }
-  }, [limit])
+  }, [])
 
   if (loading) {
     return (
-      <section className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 ${className}`}>
-        <h2 className="text-2xl sm:text-3xl font-bold mb-8">{title}</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {[1, 2, 3].map((item) => (
-            <div
-              key={item}
-              className="border border-neutral-800 rounded-lg h-80 bg-neutral-900/30 animate-pulse"
-            />
-          ))}
-        </div>
+      <section className="py-20 text-center text-neutral-400">
+        Chargement des projets...
       </section>
     )
   }
 
   if (error) {
     return (
-      <section className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 ${className}`}>
-        <h2 className="text-2xl sm:text-3xl font-bold mb-8">{title}</h2>
-        <div className="border border-red-500/30 bg-red-500/5 text-red-300 rounded-lg p-4">
-          {error}
-        </div>
+      <section className="py-20 text-center text-red-400">
+        Erreur : {error}
       </section>
     )
   }
 
   return (
-    <section className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 ${className}`}>
-      <h2 className="text-2xl sm:text-3xl font-bold mb-8">{title}</h2>
-
-      {projects.length === 0 ? (
-        <div className="text-center py-10 text-neutral-500">
-          <p>Aucun projet disponible pour le moment.</p>
+    <section id="projects" className="py-20">
+      <div className="max-w-6xl mx-auto px-4">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+            Mes projets
+          </h2>
+          <p className="text-neutral-400 max-w-2xl mx-auto">
+            Découvrez mes réalisations en développement web, mobile et desktop.
+          </p>
         </div>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {projects.map((project) => (
             <ProjectCard key={project.id} project={project} />
           ))}
         </div>
-      )}
+        {projects.length === 0 && (
+          <p className="text-center text-neutral-500">
+            Aucun projet n’est disponible pour le moment.
+          </p>
+        )}
+      </div>
     </section>
   )
 }

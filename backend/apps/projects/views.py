@@ -1,21 +1,52 @@
+from django.shortcuts import get_object_or_404
 from rest_framework import generics
-from rest_framework.filters import SearchFilter, OrderingFilter
-from django_filters.rest_framework import DjangoFilterBackend
-from .models import Project
-from .serializers import ProjectListSerializer, ProjectDetailSerializer
+from rest_framework.response import Response
+
+from .models import Project, Technology
+from .serializers import (
+    ProjectDetailSerializer,
+    ProjectListSerializer,
+    TechnologySerializer,
+)
 
 
-class ProjectListView(generics.ListAPIView):
-    queryset = Project.objects.filter(is_published=True).prefetch_related('technologies')
+class TechnologyListAPIView(generics.ListAPIView):
+    queryset = Technology.objects.all()
+    serializer_class = TechnologySerializer
+
+
+class ProjectListAPIView(generics.ListAPIView):
     serializer_class = ProjectListSerializer
-    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
-    filterset_fields = ['is_featured', 'year', 'technologies', 'project_type']
-    search_fields = ['title', 'short_description', 'description', 'tags']
-    ordering_fields = ['order', 'year', 'created_at']
-    ordering = ['-is_featured', 'order', '-created_at']
+
+    def get_queryset(self):
+        queryset = Project.objects.filter(is_published=True)
+
+        project_type = self.request.query_params.get("type")
+        technology = self.request.query_params.get("technology")
+        featured = self.request.query_params.get("featured")
+
+        if project_type:
+            queryset = queryset.filter(project_type=project_type)
+
+        if technology:
+            queryset = queryset.filter(technologies__name__iexact=technology)
+
+        if featured in ["true", "True", "1"]:
+            queryset = queryset.filter(is_featured=True)
+
+        return queryset
 
 
-class ProjectDetailView(generics.RetrieveAPIView):
-    queryset = Project.objects.filter(is_published=True).prefetch_related('technologies', 'images')
+class ProjectDetailAPIView(generics.RetrieveAPIView):
     serializer_class = ProjectDetailSerializer
-    lookup_field = 'slug'
+    lookup_field = "slug"
+
+    def get_queryset(self):
+        return Project.objects.filter(is_published=True)
+
+    def retrieve(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        project = get_object_or_404(queryset, slug=kwargs["slug"])
+        serializer = self.get_serializer(project)
+
+        return Response(serializer.data)
