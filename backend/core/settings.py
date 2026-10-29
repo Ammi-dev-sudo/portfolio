@@ -109,7 +109,6 @@ if DATABASE_URL:
         "default": dj_database_url.parse(
             DATABASE_URL,
             conn_max_age=300,
-            ssl_require=True,
         )
     }
 
@@ -201,7 +200,7 @@ STORAGES = {
 
 MEDIA_URL = "/media/"
 
-MEDIA_ROOT = BASE_DIR / "media"
+MEDIA_ROOT = Path(os.getenv("MEDIA_ROOT", BASE_DIR / "media"))
 
 # ============================================================
 # 9. DJANGO REST FRAMEWORK
@@ -221,7 +220,7 @@ REST_FRAMEWORK = {
 
 FRONTEND_URLS = os.getenv(
     "FRONTEND_URL",
-    "https://portfolio-git-main-acme-8eb4.vercel.app"
+    "http://localhost:5173,http://127.0.0.1:5173",
 )
 
 CORS_ALLOWED_ORIGINS = [
@@ -247,10 +246,7 @@ CORS_ALLOW_ALL_ORIGINS = DEBUG
 
 CSRF_TRUSTED_ORIGINS = [
     url.strip().rstrip("/")
-    for url in os.getenv(
-        "CSRF_TRUSTED_ORIGINS",
-        "https://portfolio-git-main-acme-8eb4.vercel.app"
-    ).split(",")
+    for url in os.getenv("CSRF_TRUSTED_ORIGINS", FRONTEND_URLS).split(",")
     if url.strip()
 ]
 

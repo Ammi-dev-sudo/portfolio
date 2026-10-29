@@ -90,9 +90,33 @@ Les formulaires envoyés depuis `/contact` arrivent dans **Contact > Messages de
 
 ## Configuration CORS
 
-Par défaut autorisé pour `http://localhost:5173`. Si tu changes le port ou déploies, ajuste `CORS_ALLOWED_ORIGINS` dans `backend/core/settings.py`.
+En local, `http://localhost:5173` est autorisé par défaut. En production, définis la variable `FRONTEND_URL` du backend (ex. `https://mon-portfolio.vercel.app`) : elle alimente automatiquement CORS et CSRF.
 
-## Déploiement rapide (idées)
-- Backend : Render, Railway, PythonAnywhere
-- Frontend : Vercel, Netlify
+## Déploiement Render + Vercel
+
+Le fichier `render.yaml` décrit le backend (service web Python + PostgreSQL) et `frontend/vercel.json` le frontend (SPA Vite).
+
+### 1) Backend sur Render
+
+1. Pousse le repo sur GitHub.
+2. Sur [render.com](https://render.com) : **New > Blueprint**, sélectionne le repo.
+3. Render détecte `render.yaml`. Renseigne `FRONTEND_URL` avec l'URL Vercel (tu peux mettre une valeur provisoire puis la corriger).
+4. Déploie. L'API est disponible sur `https://<service>.onrender.com` (admin sur `/admin/`).
+5. Crée le superutilisateur : **Shell** Render → `python manage.py createsuperuser`.
+
+Variables utiles : `SECRET_KEY` (généré), `DEBUG=False`, `DATABASE_URL` (fourni par la base Render), `FRONTEND_URL`, `SERVE_MEDIA=True`.
+
+> Le plan gratuit Render ne conserve pas les fichiers uploadés (images) entre deux déploiements. Pour un portfolio durable, utilise un stockage externe (Cloudinary/S3) ou un disque persistant Render.
+
+### 2) Frontend sur Vercel
+
+1. Sur [vercel.com](https://vercel.com) : **Add New > Project**, importe le repo.
+2. **Root Directory** : `frontend`.
+3. Framework : Vite (détecté). Build : `npm run build`, Output : `dist`.
+4. Variable d'environnement : `VITE_API_URL=https://<service>.onrender.com`.
+5. Déploie, puis reporte l'URL Vercel dans `FRONTEND_URL` sur Render et redéploie le backend.
+
+### Autres options
+- Backend : Railway, PythonAnywhere
+- Frontend : Netlify
 - BDD : Neon (Postgres), PlanetScale/MySQL
