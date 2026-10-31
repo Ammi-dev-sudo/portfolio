@@ -17,9 +17,38 @@
 
 :root {
   color-scheme: dark;
+  --stroke-color: rgba(242, 239, 230, 0.5);
+  --grid-line: rgba(242, 239, 230, 0.055);
+  --particle-color: rgba(242, 239, 230, 0.7);
+  --cursor-ring: rgba(242, 239, 230, 0.55);
   font-family: var(--font-sans);
   color: var(--color-ink);
   background: var(--color-void);
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --color-void: #f5f3ec;
+  --color-coal: #eae7dc;
+  --color-panel: #ffffff;
+  --color-ink: #15171c;
+  --color-mist: #5c636e;
+  --color-acid: #4d7c0f;
+  --color-ember: #b93815;
+  --color-iris: #6d28d9;
+  --stroke-color: rgba(21, 23, 28, 0.35);
+  --grid-line: rgba(21, 23, 28, 0.07);
+  --particle-color: rgba(21, 23, 28, 0.4);
+  --cursor-ring: rgba(21, 23, 28, 0.45);
+  background: var(--color-void);
+}
+
+html[data-theme="light"] .blob {
+  opacity: 0.1;
+}
+
+html[data-theme="light"] .grain {
+  opacity: 0.035;
 }
 
 html {
@@ -50,12 +79,12 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #07080a;
+  background: var(--color-void);
 }
 
 ::-webkit-scrollbar-thumb {
   border-radius: 999px;
-  background: #272b32;
+  background: color-mix(in srgb, var(--color-ink) 18%, transparent);
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -68,7 +97,7 @@ body {
 
 .text-stroke {
   color: transparent;
-  -webkit-text-stroke: 1.5px rgba(242, 239, 230, 0.5);
+  -webkit-text-stroke: 1.5px var(--stroke-color);
 }
 
 .text-stroke-acid {
@@ -232,8 +261,8 @@ body {
 
 .grid-lines {
   background-image:
-    linear-gradient(to right, rgba(242, 239, 230, 0.055) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(242, 239, 230, 0.055) 1px, transparent 1px);
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
   background-size: 72px 72px;
   mask-image: radial-gradient(ellipse at center, black 25%, transparent 78%);
   -webkit-mask-image: radial-gradient(ellipse at center, black 25%, transparent 78%);
@@ -244,7 +273,7 @@ body {
   inset: 0;
   background: radial-gradient(
     600px circle at var(--mx, 50%) var(--my, 30%),
-    rgba(216, 255, 79, 0.08),
+    color-mix(in srgb, var(--color-acid) 8%, transparent),
     transparent 62%
   );
 }
@@ -295,7 +324,7 @@ body {
 .particle {
   position: absolute;
   border-radius: 9999px;
-  background: rgba(242, 239, 230, 0.7);
+  background: var(--particle-color);
   animation: drift var(--dur, 12s) linear infinite;
   animation-delay: var(--delay, 0s);
   opacity: 0;
@@ -386,7 +415,7 @@ body {
   border-radius: inherit;
   background: radial-gradient(
     340px circle at var(--mx, 50%) var(--my, 50%),
-    rgba(216, 255, 79, 0.14),
+    color-mix(in srgb, var(--color-acid) 14%, transparent),
     transparent 65%
   );
   opacity: 0;
@@ -434,13 +463,13 @@ body {
 
 @keyframes statusPulse {
   0% {
-    box-shadow: 0 0 0 0 rgba(216, 255, 79, 0.55);
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-acid) 55%, transparent);
   }
   70% {
-    box-shadow: 0 0 0 10px rgba(216, 255, 79, 0);
+    box-shadow: 0 0 0 10px color-mix(in srgb, var(--color-acid) 0%, transparent);
   }
   100% {
-    box-shadow: 0 0 0 0 rgba(216, 255, 79, 0);
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-acid) 0%, transparent);
   }
 }
 
@@ -449,7 +478,11 @@ body {
   width: 1px;
   height: 64px;
   overflow: hidden;
-  background: linear-gradient(to bottom, rgba(216, 255, 79, 0.6), transparent);
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--color-acid) 60%, transparent),
+    transparent
+  );
 }
 
 .scroll-line::after {
@@ -497,7 +530,7 @@ body {
   width: 38px;
   height: 38px;
   margin: -19px 0 0 -19px;
-  border: 1px solid rgba(242, 239, 230, 0.55);
+  border: 1px solid var(--cursor-ring);
   transition:
     width 0.25s ease,
     height 0.25s ease,
@@ -511,7 +544,7 @@ body.cursor-hover .cursor-ring {
   height: 64px;
   margin: -32px 0 0 -32px;
   border-color: var(--color-acid);
-  background: rgba(216, 255, 79, 0.08);
+  background: color-mix(in srgb, var(--color-acid) 8%, transparent);
 }
 
 body.cursor-down .cursor-ring {

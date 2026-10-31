@@ -3,7 +3,9 @@ import { Link } from 'react-router-dom'
 import { ArrowUp, ArrowUpRight, Clock } from 'lucide-react'
 import FacebookIcon from './FacebookIcon'
 import GithubIcon from './GithubIcon'
+import WhatsAppIcon from './WhatsAppIcon'
 import Marquee from './Marquee'
+import { CONTACT } from '../data/contact'
 
 const marqueeItems = [
   'Disponible pour un stage',
@@ -63,11 +65,13 @@ export default function Footer() {
           <div>
             <p className="eyebrow">Restons en contact</p>
             <a
-              href="mailto:ammijoda5@gmail.com"
+              href={CONTACT.emailUrl}
               className="group mt-6 inline-flex items-start gap-3 font-display text-[clamp(1.9rem,5vw,4.2rem)] font-bold leading-none tracking-tight text-ink transition-colors hover:text-acid"
             >
-              ammijoda5
-              <span className="text-mist transition-colors group-hover:text-acid">@gmail.com</span>
+              {CONTACT.email.split('@')[0]}
+              <span className="text-mist transition-colors group-hover:text-acid">
+                @{CONTACT.email.split('@')[1]}
+              </span>
               <ArrowUpRight
                 size={36}
                 className="mt-1 shrink-0 transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
@@ -80,6 +84,16 @@ export default function Footer() {
 
             <div className="mt-8 flex flex-wrap items-center gap-3">
               <a
+                href={CONTACT.whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex items-center gap-2 rounded-full border border-ink/15 px-4 py-2 text-sm text-mist transition-colors hover:border-acid hover:text-acid"
+              >
+                <WhatsAppIcon size={16} />
+                WhatsApp
+                <ArrowUpRight size={14} className="opacity-0 transition-opacity group-hover:opacity-100" />
+              </a>
+              <a
                 href="https://github.com/Ammi-dev-sudo"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -90,7 +104,7 @@ export default function Footer() {
                 <ArrowUpRight size={14} className="opacity-0 transition-opacity group-hover:opacity-100" />
               </a>
               <a
-                href="https://www.facebook.com/"
+                href={CONTACT.facebookUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group inline-flex items-center gap-2 rounded-full border border-ink/15 px-4 py-2 text-sm text-mist transition-colors hover:border-acid hover:text-acid"
@@ -100,10 +114,10 @@ export default function Footer() {
                 <ArrowUpRight size={14} className="opacity-0 transition-opacity group-hover:opacity-100" />
               </a>
               <a
-                href="tel:+261346914064"
+                href={CONTACT.phoneUrl}
                 className="group inline-flex items-center gap-2 rounded-full border border-ink/15 px-4 py-2 text-sm text-mist transition-colors hover:border-acid hover:text-acid"
               >
-                +261 34 69 140 64
+                {CONTACT.phoneInternational}
                 <ArrowUpRight size={14} className="opacity-0 transition-opacity group-hover:opacity-100" />
               </a>
             </div>

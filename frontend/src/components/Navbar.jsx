@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import { ArrowUpRight, Menu, X } from 'lucide-react'
 import Magnetic from './Magnetic'
+import ThemeToggle from './ThemeToggle'
+import { CONTACT } from '../data/contact'
 
 const navLinks = [
   { name: 'Accueil', path: '/' },
@@ -83,7 +85,8 @@ export default function Navbar() {
               ))}
             </nav>
 
-            <div className="hidden md:block">
+            <div className="hidden items-center gap-2 md:flex">
+              <ThemeToggle />
               <Magnetic strength={0.25}>
                 <Link
                   to="/contact"
@@ -98,15 +101,18 @@ export default function Navbar() {
               </Magnetic>
             </div>
 
-            <button
-              type="button"
-              onClick={() => setOpen((value) => !value)}
-              className="relative z-50 flex h-10 w-10 items-center justify-center rounded-full border border-ink/15 text-ink transition-colors hover:border-acid hover:text-acid md:hidden"
-              aria-label={open ? 'Fermer le menu' : 'Ouvrir le menu'}
-              aria-expanded={open}
-            >
-              {open ? <X size={20} /> : <Menu size={20} />}
-            </button>
+            <div className="flex items-center gap-2 md:hidden">
+              <ThemeToggle />
+              <button
+                type="button"
+                onClick={() => setOpen((value) => !value)}
+                className="relative z-50 flex h-10 w-10 items-center justify-center rounded-full border border-ink/15 text-ink transition-colors hover:border-acid hover:text-acid"
+                aria-label={open ? 'Fermer le menu' : 'Ouvrir le menu'}
+                aria-expanded={open}
+              >
+                {open ? <X size={20} /> : <Menu size={20} />}
+              </button>
+            </div>
           </div>
         </div>
       </header>
@@ -132,11 +138,16 @@ export default function Navbar() {
             ))}
           </nav>
           <div className="relative mt-10 flex flex-col gap-3 text-sm text-mist">
-            <a href="mailto:ammijoda5@gmail.com" className="link-line w-fit text-ink">
-              ammijoda5@gmail.com
+            <a href={CONTACT.emailUrl} className="link-line w-fit text-ink">
+              {CONTACT.email}
             </a>
-            <a href="tel:+261346914064" className="link-line w-fit">
-              0346914064
+            <a
+              href={CONTACT.whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="link-line w-fit"
+            >
+              {CONTACT.phoneDisplay}
             </a>
             <span className="font-mono text-xs uppercase tracking-[0.2em] text-mist/70">
               Antananarivo, Madagascar

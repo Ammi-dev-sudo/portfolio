@@ -21,6 +21,7 @@ import SectionHeading from '../components/SectionHeading'
 import TiltCard from '../components/TiltCard'
 import MadagascarFlag from '../components/MadagascarFlag'
 import FacebookIcon from '../components/FacebookIcon'
+import { CONTACT } from '../data/contact'
 
 const strengths = [
   'Python',
@@ -172,27 +173,27 @@ export default function Home() {
               <Reveal delay={720}>
                 <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-mist">
                   <a
-                    href="mailto:ammijoda5@gmail.com"
+                    href={CONTACT.emailUrl}
                     className="inline-flex items-center gap-2 transition-colors hover:text-acid"
                   >
                     <Mail size={16} />
-                    ammijoda5@gmail.com
+                    {CONTACT.email}
                   </a>
                   <a
-                    href="tel:+261346914064"
+                    href={CONTACT.phoneUrl}
                     className="inline-flex items-center gap-2 transition-colors hover:text-acid"
                   >
                     <Phone size={16} />
-                    0346914064
+                    {CONTACT.phoneDisplay}
                   </a>
                   <a
-                    href="https://www.facebook.com/"
+                    href={CONTACT.facebookUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 transition-colors hover:text-acid"
                   >
                     <FacebookIcon size={16} />
-                    Ammi
+                    {CONTACT.facebookName}
                   </a>
                 </div>
               </Reveal>
@@ -450,7 +451,7 @@ export default function Home() {
                 <div className="flex flex-col gap-3">
                   <Magnetic strength={0.15}>
                     <a
-                      href="mailto:ammijoda5@gmail.com"
+                      href={CONTACT.emailUrl}
                       className="group flex items-center justify-between rounded-2xl bg-acid px-5 py-4 font-semibold text-void transition-colors hover:bg-ink"
                     >
                       Écrire un email
@@ -464,17 +465,17 @@ export default function Home() {
                     to="/contact"
                     className="group flex items-center justify-between rounded-2xl border border-ink/15 px-5 py-4 text-sm font-medium text-ink transition-colors hover:border-acid hover:text-acid"
                   >
-                    Formulaire de contact
+                    WhatsApp & autres contacts
                     <ArrowUpRight
                       size={18}
                       className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
                     />
                   </Link>
                   <a
-                    href="tel:+261346914064"
+                    href={CONTACT.phoneUrl}
                     className="group flex items-center justify-between rounded-2xl border border-ink/10 px-5 py-4 text-sm text-mist transition-colors hover:border-ink/30 hover:text-ink"
                   >
-                    0346914064
+                    {CONTACT.phoneDisplay}
                     <Phone size={18} />
                   </a>
                 </div>

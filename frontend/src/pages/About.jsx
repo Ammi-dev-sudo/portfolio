@@ -15,6 +15,7 @@ import TiltCard from '../components/TiltCard'
 import Magnetic from '../components/Magnetic'
 import MadagascarFlag from '../components/MadagascarFlag'
 import FacebookIcon from '../components/FacebookIcon'
+import { CONTACT } from '../data/contact'
 
 const skills = {
   Frontend: ['React', 'Vite', 'JavaScript', 'TypeScript', 'Tailwind CSS', 'HTML', 'CSS'],
@@ -294,20 +295,20 @@ export default function About() {
                 Coordonnées
               </p>
               <div className="mt-3 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-mist">
-                <a href="mailto:ammijoda5@gmail.com" className="link-line text-ink">
-                  ammijoda5@gmail.com
+                <a href={CONTACT.emailUrl} className="link-line text-ink">
+                  {CONTACT.email}
                 </a>
-                <a href="tel:+261346914064" className="link-line">
-                  0346914064
+                <a href={CONTACT.phoneUrl} className="link-line">
+                  {CONTACT.phoneDisplay}
                 </a>
                 <a
-                  href="https://www.facebook.com/"
+                  href={CONTACT.facebookUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 transition-colors hover:text-acid"
                 >
                   <FacebookIcon size={15} />
-                  Ammi
+                  {CONTACT.facebookName}
                 </a>
               </div>
             </div>

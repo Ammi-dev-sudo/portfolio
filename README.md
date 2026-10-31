@@ -1,11 +1,16 @@
 # Portfolio - ANDRIAMANANA Ammi Joda
 
-Portfolio full-stack développé avec **React + Vite** (frontend) et **Django REST Framework** (backend). Permet d'ajouter des projets directement depuis l'administration Django et de gérer les messages de contact.
+Portfolio full-stack développé avec **React + Vite** (frontend) et **Django REST Framework** (backend). Permet d'ajouter des projets directement depuis l'administration Django.
+
+## Fonctionnalités
+- Mode clair, sombre ou automatique (suit le thème de l'ordinateur), mémorisé dans le navigateur.
+- Page contact sans formulaire : WhatsApp, email et Facebook en accès direct.
+- Projets et technologies gérés depuis Django Admin.
 
 ## Identité
 - Nom & Prénom : ANDRIAMANANA Ammi Joda
 - Email : ammijoda5@gmail.com
-- Téléphone : 0346914064
+- Téléphone / WhatsApp : 0346914064 (+261 34 69 140 64)
 - Facebook : Ammi
 - Nationalité : Malagasy (drapeau affiché discrètement dans le Hero)
 
@@ -71,6 +76,16 @@ npm run dev
 
 Frontend accessible sur `http://localhost:5173`
 
+Le thème (clair / sombre / système) se choisit via le bouton dans la barre de navigation. Le choix est conservé dans le `localStorage` du navigateur.
+
+### Lien Facebook
+
+Renseigne `VITE_FACEBOOK_URL` avec l'URL complète de ton profil Facebook dans `frontend/.env` (et dans les variables d'environnement Vercel) pour que les boutons Facebook ouvrent directement ton profil.
+
+```env
+VITE_FACEBOOK_URL=https://www.facebook.com/ton-profil
+```
+
 ## Ajouter des projets
 
 1. Connecte-toi sur `http://localhost:8000/admin/`
@@ -84,9 +99,16 @@ Les projets s'affichent automatiquement sur le frontend.
 
 **Astuce** : Utilise **Importer/Exporter** (django-import-export) pour importer un fichier CSV/JSON/XLSX avec tes projets.
 
-## Gérer les messages de contact
+## Contact
 
-Les formulaires envoyés depuis `/contact` arrivent dans **Contact > Messages de contact** dans l'admin. Tu peux marquer comme "Lu".
+La page `/contact` ne contient plus de formulaire. Elle affiche directement :
+
+- **WhatsApp** : le bouton ouvre `wa.me` avec une conversation vers le numéro `+261 34 69 140 64` (l'utilisateur reste connecté à son compte WhatsApp sur son ordinateur).
+- **Email** : `mailto:` ouvre l'application mail avec l'adresse `ammijoda5@gmail.com`.
+- **Facebook** : le bouton ouvre le profil `Ammi`, où le visiteur peut t'ajouter ou t'envoyer un message.
+- **Téléphone** : appel direct via `tel:`.
+
+Les coordonnées sont centralisées dans `frontend/src/data/contact.js`.
 
 ## Configuration CORS
 
@@ -113,8 +135,10 @@ Variables utiles : `SECRET_KEY` (généré), `DEBUG=False`, `DATABASE_URL` (four
 1. Sur [vercel.com](https://vercel.com) : **Add New > Project**, importe le repo.
 2. **Root Directory** : `frontend`.
 3. Framework : Vite (détecté). Build : `npm run build`, Output : `dist`.
-4. Variable d'environnement : `VITE_API_URL=https://<service>.onrender.com`.
+4. Variables d'environnement : `VITE_API_URL=https://<service>.onrender.com` et `VITE_FACEBOOK_URL=https://www.facebook.com/ton-profil`.
 5. Déploie, puis reporte l'URL Vercel dans `FRONTEND_URL` sur Render et redéploie le backend.
+
+> Chaque `git push` sur la branche `main` déclenche automatiquement un nouveau déploiement Vercel. Le mode clair/sombre et la nouvelle page contact seront donc actifs sur le site en ligne après le push.
 
 ### Autres options
 - Backend : Railway, PythonAnywhere

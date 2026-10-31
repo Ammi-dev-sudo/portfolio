@@ -1,65 +1,26 @@
 import { useState } from 'react'
 import {
-  AlertCircle,
   ArrowUpRight,
   Check,
-  CheckCircle,
   Clock,
   Copy,
   Mail,
   MapPin,
+  MessageCircle,
   Phone,
-  Send,
 } from 'lucide-react'
 import Reveal from '../components/Reveal'
-import Magnetic from '../components/Magnetic'
 import MadagascarFlag from '../components/MadagascarFlag'
 import FacebookIcon from '../components/FacebookIcon'
-import { contactAPI } from '../services/api'
-
-const initialForm = {
-  name: '',
-  email: '',
-  phone: '',
-  subject: '',
-  message: '',
-}
+import WhatsAppIcon from '../components/WhatsAppIcon'
+import { CONTACT } from '../data/contact'
 
 export default function Contact() {
-  const [formData, setFormData] = useState(initialForm)
-  const [loading, setLoading] = useState(false)
-  const [success, setSuccess] = useState(false)
-  const [error, setError] = useState('')
   const [copied, setCopied] = useState(false)
-
-  const handleChange = (event) => {
-    setFormData((current) => ({
-      ...current,
-      [event.target.name]: event.target.value,
-    }))
-  }
-
-  const handleSubmit = async (event) => {
-    event.preventDefault()
-    setLoading(true)
-    setError('')
-    setSuccess(false)
-
-    try {
-      await contactAPI.sendMessage(formData)
-      setSuccess(true)
-      setFormData(initialForm)
-    } catch (err) {
-      setError("Une erreur est survenue lors de l'envoi du message. Veuillez réessayer.")
-      console.error('Erreur contact:', err)
-    } finally {
-      setLoading(false)
-    }
-  }
 
   const copyEmail = async () => {
     try {
-      await navigator.clipboard.writeText('ammijoda5@gmail.com')
+      await navigator.clipboard.writeText(CONTACT.email)
       setCopied(true)
       setTimeout(() => setCopied(false), 2200)
     } catch {
@@ -83,8 +44,8 @@ export default function Contact() {
           </Reveal>
           <Reveal delay={160}>
             <p className="mt-6 max-w-xl text-base leading-relaxed text-mist sm:text-lg">
-              Une question, un projet ou juste envie de discuter ? Décris-moi ton idée, je réponds
-              généralement sous 24 à 48 heures.
+              Une question, un projet ou juste envie de discuter ? Choisis le canal qui te convient
+              le mieux. Je réponds généralement sous 24 à 48 heures.
             </p>
           </Reveal>
         </div>
@@ -125,45 +86,40 @@ export default function Contact() {
                 </h2>
 
                 <div className="mt-5 space-y-3">
-                  <div className="group flex items-center justify-between gap-3 rounded-2xl border border-ink/10 bg-void/40 p-4 transition-colors hover:border-acid/30">
-                    <a href="mailto:ammijoda5@gmail.com" className="flex min-w-0 items-center gap-3">
-                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-acid/20 bg-acid/10 text-acid">
-                        <Mail size={17} />
-                      </span>
-                      <span className="min-w-0">
-                        <span className="block font-mono text-[9px] uppercase tracking-[0.16em] text-mist">
-                          Email
-                        </span>
-                        <span className="block truncate text-sm text-ink">ammijoda5@gmail.com</span>
-                      </span>
-                    </a>
-                    <button
-                      type="button"
-                      onClick={copyEmail}
-                      className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-ink/10 text-mist transition-colors hover:border-acid hover:text-acid"
-                      aria-label="Copier l'email"
-                    >
-                      {copied ? <Check size={15} /> : <Copy size={15} />}
-                    </button>
-                  </div>
-
                   <a
-                    href="tel:+261346914064"
+                    href={CONTACT.emailUrl}
                     className="group flex items-center gap-3 rounded-2xl border border-ink/10 bg-void/40 p-4 transition-colors hover:border-acid/30"
                   >
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-ink/10 text-mist transition-colors group-hover:border-acid/20 group-hover:bg-acid/10 group-hover:text-acid">
-                      <Phone size={17} />
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-acid/20 bg-acid/10 text-acid">
+                      <Mail size={17} />
                     </span>
-                    <span>
+                    <span className="min-w-0">
                       <span className="block font-mono text-[9px] uppercase tracking-[0.16em] text-mist">
-                        Téléphone
+                        Email
                       </span>
-                      <span className="block text-sm text-ink">0346914064</span>
+                      <span className="block truncate text-sm text-ink">{CONTACT.email}</span>
                     </span>
                   </a>
 
                   <a
-                    href="https://www.facebook.com/"
+                    href={CONTACT.whatsappUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex items-center gap-3 rounded-2xl border border-ink/10 bg-void/40 p-4 transition-colors hover:border-acid/30"
+                  >
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-acid/20 bg-acid/10 text-acid">
+                      <WhatsAppIcon size={17} />
+                    </span>
+                    <span className="min-w-0">
+                      <span className="block font-mono text-[9px] uppercase tracking-[0.16em] text-mist">
+                        WhatsApp
+                      </span>
+                      <span className="block text-sm text-ink">{CONTACT.phoneDisplay}</span>
+                    </span>
+                  </a>
+
+                  <a
+                    href={CONTACT.facebookUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="group flex items-center gap-3 rounded-2xl border border-ink/10 bg-void/40 p-4 transition-colors hover:border-acid/30"
@@ -175,25 +131,38 @@ export default function Contact() {
                       <span className="block font-mono text-[9px] uppercase tracking-[0.16em] text-mist">
                         Facebook
                       </span>
-                      <span className="block text-sm text-ink">Ammi</span>
+                      <span className="block text-sm text-ink">{CONTACT.facebookName}</span>
                     </span>
                     <ArrowUpRight
                       size={15}
                       className="text-mist transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-acid"
                     />
                   </a>
+
+                  <a
+                    href={CONTACT.phoneUrl}
+                    className="group flex items-center gap-3 rounded-2xl border border-ink/10 bg-void/40 p-4 transition-colors hover:border-acid/30"
+                  >
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-ink/10 text-mist transition-colors group-hover:border-acid/20 group-hover:bg-acid/10 group-hover:text-acid">
+                      <Phone size={17} />
+                    </span>
+                    <span>
+                      <span className="block font-mono text-[9px] uppercase tracking-[0.16em] text-mist">
+                        Téléphone
+                      </span>
+                      <span className="block text-sm text-ink">{CONTACT.phoneInternational}</span>
+                    </span>
+                  </a>
                 </div>
               </div>
             </Reveal>
 
             <Reveal delay={200}>
-              <div className="rounded-3xl border border-ink/10 bg-panel/40 p-6">
+              <div className="flex items-start gap-3 rounded-3xl border border-ink/10 bg-panel/40 p-6">
+                <MessageCircle size={18} className="mt-0.5 shrink-0 text-acid" />
                 <p className="text-sm leading-relaxed text-mist">
-                  Tu préfères écrire directement ? Envoie un email à{' '}
-                  <a href="mailto:ammijoda5@gmail.com" className="link-line text-ink">
-                    ammijoda5@gmail.com
-                  </a>
-                  . Pense à préciser l’objet de ta demande.
+                  Le bouton WhatsApp ouvre directement une conversation avec mon numéro depuis
+                  l&apos;application ou le compte connecté sur ton ordinateur.
                 </p>
               </div>
             </Reveal>
@@ -203,131 +172,116 @@ export default function Contact() {
             <div className="relative overflow-hidden rounded-3xl border border-ink/10 bg-panel/60 p-6 sm:p-8">
               <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-acid/50 to-transparent" />
 
-              <div className="flex items-center justify-between gap-4">
-                <div>
-                  <h2 className="font-display text-2xl font-bold text-ink">Envoyer un message</h2>
-                  <p className="mt-1 text-sm text-mist">Les champs marqués * sont obligatoires.</p>
-                </div>
-                <span className="hidden h-10 w-10 items-center justify-center rounded-full border border-acid/20 bg-acid/10 text-acid sm:flex">
-                  <Send size={17} />
-                </span>
+              <div>
+                <h2 className="font-display text-2xl font-bold text-ink">Choisis ton canal</h2>
+                <p className="mt-1 text-sm text-mist">
+                  WhatsApp, email ou Facebook : tout est direct, sans formulaire.
+                </p>
               </div>
 
-              <form onSubmit={handleSubmit} className="mt-7 space-y-5">
-                <div className="grid gap-5 sm:grid-cols-2">
-                  <div>
-                    <label htmlFor="name" className="mb-2 block font-mono text-[10px] uppercase tracking-[0.16em] text-mist">
-                      Nom complet *
-                    </label>
-                    <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      required
-                      value={formData.name}
-                      onChange={handleChange}
-                      placeholder="Votre nom et prénom"
-                      className="w-full rounded-xl border border-ink/10 bg-void/60 px-4 py-3 text-sm text-ink outline-none transition-colors placeholder:text-mist/40 focus:border-acid/60 focus:bg-void"
+              <div className="mt-7 space-y-4">
+                <a
+                  href={CONTACT.whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group relative block overflow-hidden rounded-2xl border border-acid/30 bg-acid/[0.07] p-5 transition-colors hover:border-acid/60 sm:p-6"
+                >
+                  <div className="absolute -right-12 -top-12 h-32 w-32 rounded-full bg-acid/10 blur-2xl" />
+                  <div className="relative flex items-start justify-between gap-4">
+                    <div className="flex items-center gap-3">
+                      <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-acid text-void">
+                        <WhatsAppIcon size={22} />
+                      </span>
+                      <div>
+                        <div className="flex flex-wrap items-center gap-2">
+                          <h3 className="font-display text-lg font-bold text-ink">WhatsApp</h3>
+                          <span className="rounded-full border border-acid/30 bg-acid/10 px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.14em] text-acid">
+                            Le plus rapide
+                          </span>
+                        </div>
+                        <p className="mt-1 font-mono text-sm text-mist">
+                          {CONTACT.whatsappDisplay}
+                        </p>
+                      </div>
+                    </div>
+                    <ArrowUpRight
+                      size={20}
+                      className="mt-1 shrink-0 text-acid transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
                     />
                   </div>
-                  <div>
-                    <label htmlFor="email" className="mb-2 block font-mono text-[10px] uppercase tracking-[0.16em] text-mist">
-                      Email *
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      required
-                      value={formData.email}
-                      onChange={handleChange}
-                      placeholder="votre@email.com"
-                      className="w-full rounded-xl border border-ink/10 bg-void/60 px-4 py-3 text-sm text-ink outline-none transition-colors placeholder:text-mist/40 focus:border-acid/60 focus:bg-void"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid gap-5 sm:grid-cols-2">
-                  <div>
-                    <label htmlFor="phone" className="mb-2 block font-mono text-[10px] uppercase tracking-[0.16em] text-mist">
-                      Téléphone
-                    </label>
-                    <input
-                      type="tel"
-                      id="phone"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      placeholder="0346914064"
-                      className="w-full rounded-xl border border-ink/10 bg-void/60 px-4 py-3 text-sm text-ink outline-none transition-colors placeholder:text-mist/40 focus:border-acid/60 focus:bg-void"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="subject" className="mb-2 block font-mono text-[10px] uppercase tracking-[0.16em] text-mist">
-                      Sujet *
-                    </label>
-                    <input
-                      type="text"
-                      id="subject"
-                      name="subject"
-                      required
-                      value={formData.subject}
-                      onChange={handleChange}
-                      placeholder="Objet de votre message"
-                      className="w-full rounded-xl border border-ink/10 bg-void/60 px-4 py-3 text-sm text-ink outline-none transition-colors placeholder:text-mist/40 focus:border-acid/60 focus:bg-void"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label htmlFor="message" className="mb-2 block font-mono text-[10px] uppercase tracking-[0.16em] text-mist">
-                    Message *
-                  </label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    required
-                    rows={6}
-                    value={formData.message}
-                    onChange={handleChange}
-                    placeholder="Décrivez votre projet ou votre demande..."
-                    className="w-full resize-none rounded-xl border border-ink/10 bg-void/60 px-4 py-3 text-sm leading-relaxed text-ink outline-none transition-colors placeholder:text-mist/40 focus:border-acid/60 focus:bg-void"
-                  />
-                </div>
-
-                {success && (
-                  <div className="page-enter flex items-center gap-2 rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-3.5 text-sm text-emerald-300">
-                    <CheckCircle size={18} />
-                    Votre message a été envoyé avec succès !
-                  </div>
-                )}
-
-                {error && (
-                  <div className="flex items-center gap-2 rounded-xl border border-ember/30 bg-ember/10 p-3.5 text-sm text-ember">
-                    <AlertCircle size={18} />
-                    {error}
-                  </div>
-                )}
-
-                <div className="flex flex-col items-start justify-between gap-4 pt-1 sm:flex-row sm:items-center">
-                  <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-mist/60">
-                    Réponse sous 24-48 h
+                  <p className="relative mt-4 text-sm leading-relaxed text-mist">
+                    Clique pour ouvrir WhatsApp avec une conversation déjà prête entre ton compte et
+                    le mien.
                   </p>
-                  <Magnetic strength={0.15}>
+                  <span className="relative mt-4 inline-flex items-center gap-2 rounded-full bg-acid px-4 py-2.5 text-sm font-semibold text-void transition-colors group-hover:bg-ink">
+                    <WhatsAppIcon size={16} />
+                    Démarrer la conversation
+                  </span>
+                </a>
+
+                <div className="group rounded-2xl border border-ink/10 bg-void/40 p-5 transition-colors hover:border-acid/30 sm:p-6">
+                  <div className="flex items-start justify-between gap-4">
+                    <a href={CONTACT.emailUrl} className="flex min-w-0 flex-1 items-center gap-3">
+                      <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-acid/20 bg-acid/10 text-acid">
+                        <Mail size={20} />
+                      </span>
+                      <div className="min-w-0">
+                        <h3 className="font-display text-lg font-bold text-ink">Email</h3>
+                        <p className="mt-1 truncate font-mono text-sm text-mist">{CONTACT.email}</p>
+                      </div>
+                    </a>
                     <button
-                      type="submit"
-                      disabled={loading}
-                      className="group inline-flex items-center gap-2.5 rounded-full bg-acid px-6 py-3.5 text-sm font-semibold text-void transition-colors hover:bg-ink disabled:cursor-not-allowed disabled:opacity-50"
+                      type="button"
+                      onClick={copyEmail}
+                      className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-ink/10 text-mist transition-colors hover:border-acid hover:text-acid"
+                      aria-label="Copier l'email"
                     >
-                      {loading ? 'Envoi en cours...' : 'Envoyer le message'}
-                      <Send
-                        size={16}
-                        className={`transition-transform ${loading ? 'animate-pulse' : 'group-hover:-translate-y-0.5 group-hover:translate-x-0.5'}`}
-                      />
+                      {copied ? <Check size={15} /> : <Copy size={15} />}
                     </button>
-                  </Magnetic>
+                  </div>
+                  <p className="mt-4 text-sm leading-relaxed text-mist">
+                    Ouvre ton application mail avec mon adresse déjà remplie.
+                  </p>
+                  <a
+                    href={CONTACT.emailUrl}
+                    className="mt-4 inline-flex items-center gap-2 rounded-full border border-ink/15 px-4 py-2.5 text-sm font-medium text-ink transition-colors hover:border-acid hover:text-acid"
+                  >
+                    Envoyer un email
+                    <ArrowUpRight size={15} />
+                  </a>
                 </div>
-              </form>
+
+                <a
+                  href={CONTACT.facebookUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group block rounded-2xl border border-ink/10 bg-void/40 p-5 transition-colors hover:border-acid/30 sm:p-6"
+                >
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="flex items-center gap-3">
+                      <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-iris/30 bg-iris/10 text-iris">
+                        <FacebookIcon size={20} />
+                      </span>
+                      <div>
+                        <h3 className="font-display text-lg font-bold text-ink">Facebook</h3>
+                        <p className="mt-1 text-sm text-mist">{CONTACT.facebookName}</p>
+                      </div>
+                    </div>
+                    <ArrowUpRight
+                      size={20}
+                      className="mt-1 shrink-0 text-mist transition-all duration-300 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-acid"
+                    />
+                  </div>
+                  <p className="mt-4 text-sm leading-relaxed text-mist">
+                    Ouvre mon profil Facebook : tu peux m&apos;ajouter ou m&apos;envoyer un message
+                    directement depuis mon nom.
+                  </p>
+                  <span className="mt-4 inline-flex items-center gap-2 rounded-full border border-ink/15 px-4 py-2.5 text-sm font-medium text-ink transition-colors group-hover:border-acid group-hover:text-acid">
+                    Voir mon profil
+                    <ArrowUpRight size={15} />
+                  </span>
+                </a>
+              </div>
             </div>
           </Reveal>
         </div>
