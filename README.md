@@ -187,11 +187,15 @@ Parcours à tester : `/`, `/projects`, `/about`, `/contact`.
 
 ### Protection Vercel
 
-Si l'URL Vercel redirige vers `vercel.com/sso-api`, la protection d'authentification Vercel est active. Pour rendre le portfolio public :
+> État actuel : l'URL de production redirige vers `vercel.com/sso-api`. La protection d'authentification Vercel est donc active et le portfolio n'est pas accessible publiquement.
+
+Pour la désactiver :
 
 1. Vercel → projet **portfolio** → **Settings** → **Deployment Protection**.
 2. Désactive **Vercel Authentication** (ou choisis **Standard Protection** pour ne protéger que les previews).
 3. Redéploie si nécessaire.
+
+> Vérifie aussi que `VITE_API_URL` sur Vercel pointe vers l'URL exacte du backend Render. Le sous-domaine `portfolio-api.onrender.com` renvoie actuellement une réponse qui ne provient pas de ce projet Django : l'URL du service peut être suffixée par Render.
 
 ### Mettre à jour le site
 
