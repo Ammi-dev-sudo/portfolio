@@ -18,10 +18,21 @@ import FacebookIcon from '../components/FacebookIcon'
 import { CONTACT } from '../data/contact'
 
 const skills = {
-  Frontend: ['React', 'Vite', 'JavaScript', 'TypeScript', 'Tailwind CSS', 'HTML', 'CSS'],
-  Backend: ['Python', 'Django', 'Django REST Framework', 'API REST'],
-  Données: ['MySQL', 'PostgreSQL', 'SQLite'],
-  Outils: ['Git', 'GitHub', 'Postman', 'Django Admin', 'CI/CD'],
+  Frontend: ['React', 'React Native', 'JavaScript', 'HTML', 'CSS', 'Tailwind CSS', 'Vite', 'Expo'],
+  Backend: [
+    'Java',
+    'Java EE',
+    'JSP/Servlets',
+    'PHP',
+    'Python',
+    'Node.js',
+    'Django',
+    'Django REST Framework',
+    'API REST',
+  ],
+  Desktop: ['PyQt6', 'Tkinter'],
+  Données: ['MySQL', 'SQLite', 'PostgreSQL'],
+  Outils: ['Git', 'GitHub', 'Merise/UML', 'MVC/DAO', 'POO', 'JWT', 'Pack Office'],
 }
 
 const values = [
@@ -44,22 +55,28 @@ const values = [
 
 const timeline = [
   {
-    year: '2024',
-    title: 'Les premiers pas',
+    year: '2023',
+    title: 'Baccalauréat & première année',
     description:
-      'Découverte du développement web, des bases de Python et de la logique front-end. Naissance d’une vraie passion pour le code.',
+      'Baccalauréat à ACEEM Andravoahangy, puis 1ère année de Licence Informatique à ESMIA Innovation (Antanimena). Premier projet transversal : une application de calendrier en PHP.',
+  },
+  {
+    year: '2024',
+    title: 'Deuxième année : gestion de taxis',
+    description:
+      'Conception d’une application de gestion de taxis (Android Java, React/Node.js) inspirée d’InDrive, avec modélisation de la base de données et développement des fonctionnalités back-end en équipe.',
   },
   {
     year: '2025',
-    title: 'Le virage full-stack',
+    title: 'Troisième année : spécialisation back-end',
     description:
-      'Apprentissage de Django, des API REST et de React. Réalisation de projets complets, du modèle de données à l’interface.',
+      'Approfondissement de la conception d’API, des bases de données et de l’architecture logicielle. Réalisation de projets en Java EE, Python et React Native.',
   },
   {
     year: '2026',
-    title: 'Aujourd’hui',
+    title: 'Aujourd’hui : cap sur le stage',
     description:
-      'Portfolio full-stack en production, à la recherche d’un stage, d’une alternance ou d’un premier emploi pour progresser en équipe.',
+      'Portfolio full-stack et six projets académiques à mon actif, dont Taxiko (Android Java) et Tantsaha Connecte (React Native/Expo). Je recherche un stage en développement back-end à partir du 21 décembre 2026.',
   },
 ]
 
@@ -83,9 +100,10 @@ export default function About() {
             </Reveal>
             <Reveal delay={160}>
               <p className="mt-7 max-w-xl text-base leading-relaxed text-mist sm:text-lg">
-                Je suis <span className="text-ink">ANDRIAMANANA Ammi Joda</span>, développeur
-                Full-Stack passionné par la conception d’applications web modernes, fonctionnelles
-                et efficaces.
+                Je suis <span className="text-ink">ANDRIAMANANA Ammi Joda</span>, étudiant en L3
+                Informatique parcours SIO à ESMIA Innovation (Antanimena), spécialisé en
+                développement back-end et passionné par la conception d’applications web, mobiles
+                et desktop.
               </p>
             </Reveal>
             <Reveal delay={220}>
@@ -97,7 +115,7 @@ export default function About() {
                 </span>
                 <span className="inline-flex items-center gap-2">
                   <GraduationCap size={16} className="text-acid" />
-                  Full-Stack · Python & React
+                  Back-end · Java, Python & PHP
                 </span>
               </div>
             </Reveal>
@@ -140,7 +158,7 @@ export default function About() {
                     <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-mist">
                       Focus
                     </p>
-                    <p className="mt-0.5 text-sm font-medium text-ink">Backend & expérience</p>
+                    <p className="mt-0.5 text-sm font-medium text-ink">Back-end & données</p>
                   </div>
                   <Coffee size={18} className="text-acid" />
                 </div>
@@ -163,15 +181,16 @@ export default function About() {
               du code, architecture claire, sécurité et expérience utilisateur.
             </p>
             <p>
-              Que ce soit côté backend avec <span className="text-ink">Python</span> et{' '}
-              <span className="text-ink">Django</span>, ou côté frontend avec{' '}
-              <span className="text-ink">React</span> et des interfaces modernes, j’essaie toujours
-              de livrer une solution utile, lisible et maintenable.
+              Que ce soit côté back-end avec <span className="text-ink">Java</span>,{' '}
+              <span className="text-ink">Python</span> ou <span className="text-ink">PHP</span>, ou
+              côté front-end avec <span className="text-ink">React</span> et{' '}
+              <span className="text-ink">React Native</span>, j’essaie toujours de livrer une
+              solution utile, lisible et maintenable.
             </p>
             <p>
-              Mon objectif est de continuer à développer des compétences dans le web applicatif, en
-              réalisant des projets concrets et en contribuant à des solutions qui apportent une
-              réelle valeur aux utilisateurs et aux entreprises.
+              Mon objectif est de décrocher un stage en développement back-end à partir du
+              21 décembre 2026, pour continuer à progresser au contact de professionnels
+              expérimentés et contribuer à des projets concrets.
             </p>
           </Reveal>
         </div>
@@ -284,6 +303,59 @@ export default function About() {
               </Reveal>
             )
           })}
+        </div>
+      </div>
+
+      <div className="mx-auto mt-24 max-w-7xl px-4 sm:px-6 lg:px-8">
+        <SectionHeading
+          eyebrow="Au-delà du code"
+          title="Langues & centres d'intérêt."
+          description="Ce qui complète mon profil technique et nourrit mon esprit d'équipe."
+        />
+        <div className="mt-12 grid gap-5 sm:grid-cols-2">
+          <Reveal y={40}>
+            <div className="h-full rounded-3xl border border-ink/10 bg-panel/50 p-7">
+              <h3 className="font-display text-xl font-bold text-ink">Langues</h3>
+              <ul className="mt-5 space-y-3 text-sm text-mist">
+                {[
+                  ['Français', 'Courant'],
+                  ['Anglais', 'Intermédiaire'],
+                  ['Malagasy', 'Natif'],
+                ].map(([language, level]) => (
+                  <li
+                    key={language}
+                    className="flex items-center justify-between gap-4 border-b border-ink/10 pb-3 last:border-0 last:pb-0"
+                  >
+                    <span className="text-ink">{language}</span>
+                    <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-mist/70">
+                      {level}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </Reveal>
+          <Reveal delay={100} y={40}>
+            <div className="h-full rounded-3xl border border-ink/10 bg-panel/50 p-7">
+              <h3 className="font-display text-xl font-bold text-ink">Centres d'intérêt</h3>
+              <p className="mt-5 text-sm leading-relaxed text-mist">
+                Sports collectifs : basket-ball et volley-ball. J’y retrouve l’esprit d’équipe, la
+                communication et la persévérance que j’applique aussi dans mes projets.
+              </p>
+              <div className="mt-5 flex flex-wrap gap-2">
+                {['Basket-ball', 'Volley-ball', 'Travail en équipe', 'Rigueur', 'Autonomie'].map(
+                  (item) => (
+                    <span
+                      key={item}
+                      className="rounded-full border border-ink/10 bg-void/40 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.12em] text-mist"
+                    >
+                      {item}
+                    </span>
+                  )
+                )}
+              </div>
+            </div>
+          </Reveal>
         </div>
       </div>
 

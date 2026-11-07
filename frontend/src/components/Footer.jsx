@@ -8,11 +8,10 @@ import Marquee from './Marquee'
 import { CONTACT } from '../data/contact'
 
 const marqueeItems = [
-  'Disponible pour un stage',
-  'Alternance',
+  'Stage back-end · Dès le 21 décembre 2026',
+  'Java · Python · PHP',
+  'React & React Native',
   'Full-Stack',
-  'Python & Django',
-  'React',
   'Travaillons ensemble',
 ]
 
@@ -145,8 +144,8 @@ export default function Footer() {
               <h3 className="font-mono text-xs uppercase tracking-[0.2em] text-mist/60">Informations</h3>
               <ul className="mt-4 space-y-2.5 text-sm text-mist">
                 <li>Antananarivo, Madagascar</li>
-                <li>Disponible immédiatement</li>
-                <li>Stage · Alternance · CDI</li>
+                <li>Disponible dès le 21 décembre 2026</li>
+                <li>Stage en développement back-end</li>
                 <li className="pt-1">
                   <LocalTime />
                 </li>

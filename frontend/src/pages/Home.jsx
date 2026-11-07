@@ -24,12 +24,13 @@ import FacebookIcon from '../components/FacebookIcon'
 import { CONTACT } from '../data/contact'
 
 const strengths = [
+  'Java',
   'Python',
+  'PHP',
   'Django',
-  'Django REST Framework',
+  'SQL',
   'React',
-  'JavaScript',
-  'PostgreSQL',
+  'React Native',
   'MySQL',
   'API REST',
 ]
@@ -37,24 +38,24 @@ const strengths = [
 const services = [
   {
     icon: Code2,
-    title: 'Développement Full-Stack',
+    title: 'Développement back-end',
     description:
-      "Conception d'applications web complètes, du backend à l'interface, avec une architecture claire et évolutive.",
-    tags: ['React', 'Django', 'Tailwind'],
+      "Conception d'API, logique métier et architecture d'applications web ou desktop avec Java, Python et PHP.",
+    tags: ['Java', 'Java EE', 'Python', 'PHP', 'API REST'],
   },
   {
     icon: Database,
-    title: 'API & bases de données',
+    title: 'Données & modélisation',
     description:
-      'Modélisation des données, création d’API robustes, gestion des relations et optimisation du stockage.',
-    tags: ['DRF', 'PostgreSQL', 'MySQL'],
+      'Modélisation Merise/UML, création de bases MySQL ou SQLite et organisation du code en MVC ou DAO.',
+    tags: ['MySQL', 'PostgreSQL', 'SQLite', 'Merise/UML'],
   },
   {
     icon: Rocket,
-    title: 'Livraison & performance',
+    title: 'Interfaces & applications',
     description:
-      'Mise en production, maintenance, sécurité et optimisation pour des solutions fiables et rapides.',
-    tags: ['Déploiement', 'Sécurité', 'Perf'],
+      'Développement d’interfaces web avec React, d’applications mobiles React Native et d’outils desktop Python.',
+    tags: ['React', 'React Native', 'PyQt6', 'Tkinter'],
   },
 ]
 
@@ -77,20 +78,22 @@ const steps = [
 ]
 
 const stats = [
-  { value: 6, suffix: '+', label: 'Projets livrés' },
-  { value: 15, suffix: '', label: 'Technologies' },
-  { value: 2, suffix: '+', label: "Années d'expérience" },
+  { value: 6, suffix: '', label: 'Projets académiques' },
+  { value: 12, suffix: '+', label: 'Technologies' },
+  { value: 3, suffix: '', label: "Années d'études" },
   { value: 100, suffix: '%', label: 'Engagement' },
 ]
 
 const marqueeItems = [
+  'Java',
   'Python',
+  'PHP',
   'Django',
   'React',
+  'MySQL',
   'PostgreSQL',
   'API REST',
-  'Tailwind CSS',
-  'Full-Stack',
+  'Back-end',
 ]
 
 export default function Home() {
@@ -104,7 +107,7 @@ export default function Home() {
                 <div className="inline-flex items-center gap-2.5 rounded-full border border-ink/15 bg-ink/[0.03] px-3.5 py-1.5">
                   <span className="status-dot" />
                   <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-mist">
-                    Disponible · Stage / Alternance
+                    Stage back-end · Dès le 21 décembre 2026
                   </span>
                 </div>
               </Reveal>
@@ -123,10 +126,10 @@ export default function Home() {
                   <span className="text-acid">//</span>
                   <Typewriter
                     words={[
-                      'Développeur Full-Stack',
-                      'Backend Python & Django',
-                      'Frontend React',
-                      'Créateur d’expériences web',
+                      'Développeur Back-end',
+                      'Full-Stack Java, Python & PHP',
+                      'Applications web & mobiles',
+                      'Étudiant en L3 Informatique',
                     ]}
                   />
                 </div>
@@ -134,10 +137,10 @@ export default function Home() {
 
               <Reveal delay={520}>
                 <p className="mt-6 max-w-xl text-base leading-relaxed text-mist sm:text-lg">
-                  Je conçois des applications web modernes et fonctionnelles avec{' '}
-                  <span className="text-ink">Python/Django</span> côté backend et{' '}
-                  <span className="text-ink">React</span> côté frontend. Des solutions fiables,
-                  performantes et centrées sur l’expérience utilisateur.
+                  Étudiant en <span className="text-ink">L3 Informatique (SIO)</span>, je me
+                  spécialise en développement back-end avec{' '}
+                  <span className="text-ink">Java, Python et PHP</span>, et je développe mes
+                  interfaces avec <span className="text-ink">React</span>.
                 </p>
               </Reveal>
 
@@ -251,9 +254,9 @@ export default function Home() {
                 <div className="animate-float-slow absolute -right-3 top-1/3 rounded-2xl border border-ink/10 bg-panel/85 px-4 py-3 backdrop-blur-md sm:-right-7">
                   <Database size={18} className="text-iris" />
                   <p className="mt-2 font-mono text-[9px] uppercase tracking-[0.16em] text-mist">
-                    Backend
+                    Back-end
                   </p>
-                  <p className="text-sm font-semibold text-ink">Django</p>
+                  <p className="text-sm font-semibold text-ink">Java · Python · PHP</p>
                 </div>
 
                 <div className="animate-float absolute -bottom-4 left-10 flex items-center gap-2 rounded-full border border-acid/30 bg-void/80 px-4 py-2 backdrop-blur-md">
@@ -443,8 +446,8 @@ export default function Home() {
                     <span className="text-acid">Parlons-en.</span>
                   </h2>
                   <p className="mt-5 max-w-lg text-sm leading-relaxed text-mist sm:text-base">
-                    Je suis disponible pour un stage, une alternance ou une collaboration. Décris-moi
-                    ton idée, je te réponds sous 24 à 48 heures.
+                    Je recherche un stage en développement back-end à partir du 21 décembre 2026.
+                    Décris-moi ton projet ou ton équipe, je te réponds sous 24 à 48 heures.
                   </p>
                 </div>
 

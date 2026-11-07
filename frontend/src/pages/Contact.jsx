@@ -12,6 +12,7 @@ import {
 import Reveal from '../components/Reveal'
 import MadagascarFlag from '../components/MadagascarFlag'
 import FacebookIcon from '../components/FacebookIcon'
+import GithubIcon from '../components/GithubIcon'
 import WhatsAppIcon from '../components/WhatsAppIcon'
 import { CONTACT } from '../data/contact'
 
@@ -58,12 +59,12 @@ export default function Contact() {
                 <div className="relative flex items-center gap-2">
                   <span className="status-dot" />
                   <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-acid">
-                    Disponible maintenant
+                    Disponible dès le 21 décembre 2026
                   </p>
                 </div>
                 <p className="relative mt-4 text-sm leading-relaxed text-ink">
-                  Ouvert aux stages, alternances et collaborations freelance. Basé à Antananarivo,
-                  disponible à distance.
+                  Je recherche un stage en développement back-end à partir du 21 décembre 2026.
+                  Basé à Antananarivo, ouvert au présentiel comme au distanciel.
                 </p>
                 <div className="relative mt-4 flex flex-wrap items-center gap-3 text-xs text-mist">
                   <span className="inline-flex items-center gap-1.5">
@@ -72,10 +73,13 @@ export default function Contact() {
                   </span>
                   <span className="inline-flex items-center gap-1.5">
                     <MapPin size={13} className="text-acid" />
-                    Madagascar
+                    Antananarivo, Madagascar
                     <MadagascarFlag className="h-3 w-5 rounded-[1px]" />
                   </span>
                 </div>
+                <p className="relative mt-3 text-xs leading-relaxed text-mist">
+                  {CONTACT.addressLine1} · {CONTACT.addressLine2}
+                </p>
               </div>
             </Reveal>
 
@@ -132,6 +136,27 @@ export default function Contact() {
                         Facebook
                       </span>
                       <span className="block text-sm text-ink">{CONTACT.facebookName}</span>
+                    </span>
+                    <ArrowUpRight
+                      size={15}
+                      className="text-mist transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-acid"
+                    />
+                  </a>
+
+                  <a
+                    href={CONTACT.githubUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex items-center gap-3 rounded-2xl border border-ink/10 bg-void/40 p-4 transition-colors hover:border-acid/30"
+                  >
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-ink/10 text-mist transition-colors group-hover:border-acid/20 group-hover:bg-acid/10 group-hover:text-acid">
+                      <GithubIcon size={17} />
+                    </span>
+                    <span className="flex-1">
+                      <span className="block font-mono text-[9px] uppercase tracking-[0.16em] text-mist">
+                        GitHub
+                      </span>
+                      <span className="block text-sm text-ink">{CONTACT.githubName}</span>
                     </span>
                     <ArrowUpRight
                       size={15}

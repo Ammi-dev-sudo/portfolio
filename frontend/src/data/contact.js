@@ -16,6 +16,11 @@ export const CONTACT = {
   whatsappUrl: `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`,
   facebookName: 'Ammi',
   facebookUrl,
+  addressLine1: 'Lot IVE 17 bis Anosisoa',
+  addressLine2: 'Ambohimanarina, Antananarivo',
+  githubName: 'Ammi-dev-sudo',
+  githubUrl: 'https://github.com/Ammi-dev-sudo',
+  availability: 'Stage back-end dès le 21 décembre 2026',
 }
 
 export default CONTACT

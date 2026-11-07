@@ -9,10 +9,18 @@ Portfolio full-stack développé avec **React + Vite** (frontend) et **Django RE
 
 ## Identité
 - Nom & Prénom : ANDRIAMANANA Ammi Joda
+- Profil : Étudiant en L3 Informatique, parcours SIO — ESMIA Innovation, Antananarivo
+- Formation : L3 Informatique parcours SIO (2025–2026), L2 (2024–2025), L1 Tronc Commun (2023–2024) — ESMIA Innovation, Antanimena ; Baccalauréat — ACEEM Andravoahangy (2023)
+- Objectif : stage en développement back-end à partir du 21 décembre 2026
 - Email : ammijoda5@gmail.com
 - Téléphone / WhatsApp : 0346914064 (+261 34 69 140 64)
+- Adresse : Lot IVE 17 bis Anosisoa, Ambohimanarina, Antananarivo
+- GitHub : [Ammi-dev-sudo](https://github.com/Ammi-dev-sudo)
 - Facebook : Ammi
+- Langues : français (courant), anglais (intermédiaire), malagasy (natif)
 - Nationalité : Malagasy (drapeau affiché discrètement dans le Hero)
+- Technologies : Java, Java EE, Python, PHP, SQL, React, React Native, Django, MySQL, SQLite, PostgreSQL, Git/GitHub, Merise/UML, MVC/DAO
+- Projets : Tantsaha Connecte, Taxiko, Rencontre des Samy Tia, Énergie de bâtiment, Vente Fictive, Biblio, Portfolio
 
 ## Stack
 - **Frontend** : React 19 + Vite + Tailwind CSS 4 + React Router DOM
@@ -70,7 +78,7 @@ Les pilotes sont **purs Python / wheels binaires** (aucune compilation requise) 
 ```bash
 cd frontend
 npm install
-cp .env.example .env   # VITE_API_URL=http://localhost:8000/api
+cp .env.example .env   # VITE_API_URL=http://127.0.0.1:8000 (sans /api)
 npm run dev
 ```
 
@@ -112,21 +120,48 @@ Les coordonnées sont centralisées dans `frontend/src/data/contact.js`.
 
 ## Configuration CORS
 
-En local, `http://localhost:5173` est autorisé par défaut. En production, définis la variable `FRONTEND_URL` du backend (ex. `https://mon-portfolio.vercel.app`) : elle alimente automatiquement CORS et CSRF.
+En local, `http://localhost:5173` est autorisé par défaut. En production, définis la variable `FRONTEND_URL` du backend avec l'URL Vercel (ex. `https://portfolio-acme-8eb4.vercel.app`) : elle alimente automatiquement CORS et CSRF.
 
 ## Déploiement Render + Vercel
 
 Le fichier `render.yaml` décrit le backend (service web Python + PostgreSQL) et `frontend/vercel.json` le frontend (SPA Vite).
 
+### URLs de production
+
+| Service | URL |
+| --- | --- |
+| Frontend (Vercel) | https://portfolio-acme-8eb4.vercel.app |
+| Alias de branche | https://portfolio-git-main-acme-8eb4.vercel.app |
+| Backend (Render) | `https://<service>.onrender.com` (URL exacte dans le dashboard Render) |
+| Admin Django | `https://<service>.onrender.com/admin/` |
+| API projets | `https://<service>.onrender.com/api/projects/` |
+
+> Remplace `<service>` par le nom exact affiché dans le dashboard Render. Le sous-domaine `portfolio-api.onrender.com` peut déjà être utilisé par un autre compte : Render ajoute alors un suffixe au nom du service.
+
+### Déploiement automatique
+
+- **Frontend** : chaque `git push` sur la branche `main` déclenche un nouveau déploiement Vercel.
+- **Backend** : Render redéploie le service si le Blueprint est connecté au repo et si l'auto-deploy est activé.
+- **Base de données** : `DATABASE_URL` est fourni par la base Render `portfolio-db`.
+
 ### 1) Backend sur Render
 
 1. Pousse le repo sur GitHub.
 2. Sur [render.com](https://render.com) : **New > Blueprint**, sélectionne le repo.
-3. Render détecte `render.yaml`. Renseigne `FRONTEND_URL` avec l'URL Vercel (tu peux mettre une valeur provisoire puis la corriger).
+3. Render détecte `render.yaml`. Renseigne `FRONTEND_URL` avec l'URL Vercel.
 4. Déploie. L'API est disponible sur `https://<service>.onrender.com` (admin sur `/admin/`).
 5. Crée le superutilisateur : **Shell** Render → `python manage.py createsuperuser`.
 
-Variables utiles : `SECRET_KEY` (généré), `DEBUG=False`, `DATABASE_URL` (fourni par la base Render), `FRONTEND_URL`, `SERVE_MEDIA=True`.
+Variables utiles :
+
+| Variable | Valeur |
+| --- | --- |
+| `SECRET_KEY` | généré par Render |
+| `DEBUG` | `False` |
+| `ALLOWED_HOSTS` | `localhost,127.0.0.1` (Render ajoute automatiquement son domaine) |
+| `FRONTEND_URL` | `https://portfolio-acme-8eb4.vercel.app` |
+| `DATABASE_URL` | fourni par la base Render |
+| `SERVE_MEDIA` | `True` |
 
 > Le plan gratuit Render ne conserve pas les fichiers uploadés (images) entre deux déploiements. Pour un portfolio durable, utilise un stockage externe (Cloudinary/S3) ou un disque persistant Render.
 
@@ -135,10 +170,41 @@ Variables utiles : `SECRET_KEY` (généré), `DEBUG=False`, `DATABASE_URL` (four
 1. Sur [vercel.com](https://vercel.com) : **Add New > Project**, importe le repo.
 2. **Root Directory** : `frontend`.
 3. Framework : Vite (détecté). Build : `npm run build`, Output : `dist`.
-4. Variables d'environnement : `VITE_API_URL=https://<service>.onrender.com` et `VITE_FACEBOOK_URL=https://www.facebook.com/ton-profil`.
+4. Variables d'environnement : `VITE_API_URL=https://<service>.onrender.com` (sans `/api`) et `VITE_FACEBOOK_URL=https://www.facebook.com/ton-profil`.
 5. Déploie, puis reporte l'URL Vercel dans `FRONTEND_URL` sur Render et redéploie le backend.
 
-> Chaque `git push` sur la branche `main` déclenche automatiquement un nouveau déploiement Vercel. Le mode clair/sombre et la nouvelle page contact seront donc actifs sur le site en ligne après le push.
+### 3) Vérifications après déploiement
+
+```bash
+# Le frontend répond (200)
+curl -I https://portfolio-acme-8eb4.vercel.app
+
+# L'API renvoie la liste des projets (JSON)
+curl https://<service>.onrender.com/api/projects/
+```
+
+Parcours à tester : `/`, `/projects`, `/about`, `/contact`.
+
+### Protection Vercel
+
+Si l'URL Vercel redirige vers `vercel.com/sso-api`, la protection d'authentification Vercel est active. Pour rendre le portfolio public :
+
+1. Vercel → projet **portfolio** → **Settings** → **Deployment Protection**.
+2. Désactive **Vercel Authentication** (ou choisis **Standard Protection** pour ne protéger que les previews).
+3. Redéploie si nécessaire.
+
+### Mettre à jour le site
+
+```bash
+cd frontend
+npm run lint && npm run build
+cd ..
+git add README.md frontend
+git commit -m "Met à jour le portfolio et le déploiement"
+git push origin main
+```
+
+Vercel et Render redéploient automatiquement. Vérifie ensuite les URLs ci-dessus.
 
 ### Autres options
 - Backend : Railway, PythonAnywhere
