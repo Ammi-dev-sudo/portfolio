@@ -148,7 +148,7 @@ Le fichier `render.yaml` décrit le backend (service web Python + PostgreSQL) et
 
 1. Pousse le repo sur GitHub.
 2. Sur [render.com](https://render.com) : **New > Blueprint**, sélectionne le repo.
-3. Render détecte `render.yaml`. Renseigne `FRONTEND_URL` avec l'URL Vercel.
+3. Render détecte `render.yaml`. Renseigne `FRONTEND_URL` avec l'URL Vercel et les identifiants Cloudinary (`CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`).
 4. Déploie. L'API est disponible sur `https://<service>.onrender.com` (admin sur `/admin/`).
 5. Crée le superutilisateur : **Shell** Render → `python manage.py createsuperuser`.
 
@@ -161,9 +161,13 @@ Variables utiles :
 | `ALLOWED_HOSTS` | `localhost,127.0.0.1` (Render ajoute automatiquement son domaine) |
 | `FRONTEND_URL` | `https://portfolio-acme-8eb4.vercel.app` |
 | `DATABASE_URL` | fourni par la base Render |
-| `SERVE_MEDIA` | `True` |
+| `CLOUDINARY_CLOUD_NAME` | Cloudinary → Dashboard → Product Environment Credentials |
+| `CLOUDINARY_API_KEY` | idem |
+| `CLOUDINARY_API_SECRET` | idem |
 
-> Le plan gratuit Render ne conserve pas les fichiers uploadés (images) entre deux déploiements. Pour un portfolio durable, utilise un stockage externe (Cloudinary/S3) ou un disque persistant Render.
+> Le plan gratuit Render ne conserve pas les fichiers uploadés sur son disque local. Les images sont donc stockées sur Cloudinary (variable `CLOUDINARY_URL` possible à la place des trois identifiants). En local, sans identifiants Cloudinary, le backend continue d'utiliser `backend/media/`.
+>
+> Les images uploadées avant la mise en place de Cloudinary ont été perdues avec le redémarrage de Render : ré-uploade-les depuis l'admin Django après le déploiement.
 
 ### 2) Frontend sur Vercel
 
