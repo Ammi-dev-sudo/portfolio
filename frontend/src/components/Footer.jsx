@@ -65,15 +65,15 @@ export default function Footer() {
             <p className="eyebrow">Restons en contact</p>
             <a
               href={CONTACT.emailUrl}
-              className="group mt-6 inline-flex items-start gap-3 font-display text-[clamp(1.9rem,5vw,4.2rem)] font-bold leading-none tracking-tight text-ink transition-colors hover:text-acid"
+              className="group mt-6 flex max-w-full flex-wrap items-start gap-x-3 gap-y-1 font-display text-[clamp(1.55rem,5vw,3.9rem)] font-bold leading-none tracking-tight text-ink transition-colors hover:text-acid"
             >
-              {CONTACT.email.split('@')[0]}
-              <span className="text-mist transition-colors group-hover:text-acid">
+              <span className="min-w-0 break-all">{CONTACT.email.split('@')[0]}</span>
+              <span className="min-w-0 break-all text-mist transition-colors group-hover:text-acid">
                 @{CONTACT.email.split('@')[1]}
               </span>
               <ArrowUpRight
-                size={36}
-                className="mt-1 shrink-0 transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
+                size={30}
+                className="mt-1 hidden shrink-0 transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1 sm:block"
               />
             </a>
             <p className="mt-6 max-w-md text-sm leading-relaxed text-mist">

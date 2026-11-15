@@ -53,7 +53,7 @@ export default function ProjectCard({ project, index = 0 }) {
             {String(index + 1).padStart(2, '0')}
           </span>
 
-          <div className="absolute inset-x-4 bottom-4 flex translate-y-4 items-center justify-between opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
+          <div className="absolute inset-x-4 bottom-4 flex translate-y-0 items-center justify-between opacity-100 transition-all duration-500 sm:translate-y-4 sm:opacity-0 sm:group-hover:translate-y-0 sm:group-hover:opacity-100">
             <span className="text-sm font-medium text-ink">Voir le projet</span>
             <span className="flex h-9 w-9 items-center justify-center rounded-full bg-acid text-void">
               <ArrowUpRight size={17} />

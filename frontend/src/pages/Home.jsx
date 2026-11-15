@@ -243,7 +243,7 @@ export default function Home() {
                   </div>
                 </div>
 
-                <div className="animate-float absolute -left-4 top-12 rounded-2xl border border-ink/10 bg-panel/85 px-4 py-3 backdrop-blur-md sm:-left-8">
+                <div className="animate-float absolute left-0 top-12 rounded-2xl border border-ink/10 bg-panel/85 px-3 py-2.5 backdrop-blur-md sm:-left-8 sm:px-4 sm:py-3">
                   <Code2 size={18} className="text-acid" />
                   <p className="mt-2 font-mono text-[9px] uppercase tracking-[0.16em] text-mist">
                     Frontend
@@ -251,7 +251,7 @@ export default function Home() {
                   <p className="text-sm font-semibold text-ink">React</p>
                 </div>
 
-                <div className="animate-float-slow absolute -right-3 top-1/3 rounded-2xl border border-ink/10 bg-panel/85 px-4 py-3 backdrop-blur-md sm:-right-7">
+                <div className="animate-float-slow absolute right-0 top-1/3 rounded-2xl border border-ink/10 bg-panel/85 px-3 py-2.5 backdrop-blur-md sm:-right-7 sm:px-4 sm:py-3">
                   <Database size={18} className="text-iris" />
                   <p className="mt-2 font-mono text-[9px] uppercase tracking-[0.16em] text-mist">
                     Back-end
@@ -259,7 +259,7 @@ export default function Home() {
                   <p className="text-sm font-semibold text-ink">Java · Python · PHP</p>
                 </div>
 
-                <div className="animate-float absolute -bottom-4 left-10 flex items-center gap-2 rounded-full border border-acid/30 bg-void/80 px-4 py-2 backdrop-blur-md">
+                <div className="animate-float absolute -bottom-4 left-1/2 flex -translate-x-1/2 items-center gap-2 rounded-full border border-acid/30 bg-void/80 px-4 py-2 backdrop-blur-md sm:left-10 sm:translate-x-0">
                   <Sparkles size={14} className="text-acid" />
                   <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-ink">
                     Full-Stack
@@ -358,21 +358,21 @@ export default function Home() {
                 return (
                   <Reveal key={service.title} delay={index * 110} y={44}>
                     <TiltCard max={4}>
-                      <div className="card-glow group flex gap-4 rounded-3xl border border-ink/10 bg-panel/60 p-6 transition-colors duration-500 hover:border-acid/30 sm:gap-6 sm:p-8">
+                      <div className="card-glow group flex gap-3 rounded-3xl border border-ink/10 bg-panel/60 p-5 transition-colors duration-500 hover:border-acid/30 sm:gap-6 sm:p-8">
                         <span className="font-mono text-xs text-mist/40">0{index + 1}</span>
-                        <div className="flex-1">
-                          <div className="flex items-start justify-between gap-4">
-                            <div className="flex items-center gap-3">
+                        <div className="min-w-0 flex-1">
+                          <div className="flex items-start justify-between gap-3">
+                            <div className="flex min-w-0 items-center gap-3">
                               <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-acid/20 bg-acid/10 text-acid">
                                 <Icon size={20} />
                               </span>
-                              <h3 className="font-display text-lg font-bold text-ink sm:text-xl">
+                              <h3 className="min-w-0 break-words font-display text-lg font-bold text-ink sm:text-xl">
                                 {service.title}
                               </h3>
                             </div>
                             <ArrowUpRight
                               size={18}
-                              className="mt-1 shrink-0 text-mist transition-all duration-300 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-acid"
+                              className="mt-1 hidden shrink-0 text-mist transition-all duration-300 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-acid min-[360px]:block"
                             />
                           </div>
                           <p className="mt-4 text-sm leading-relaxed text-mist">
@@ -452,7 +452,7 @@ export default function Home() {
                 </div>
 
                 <div className="flex flex-col gap-3">
-                  <Magnetic strength={0.15}>
+                  <Magnetic strength={0.15} className="block w-full">
                     <a
                       href={CONTACT.emailUrl}
                       className="group flex items-center justify-between rounded-2xl bg-acid px-5 py-4 font-semibold text-void transition-colors hover:bg-ink"

@@ -101,7 +101,7 @@ export default function Contact() {
                       <span className="block font-mono text-[9px] uppercase tracking-[0.16em] text-mist">
                         Email
                       </span>
-                      <span className="block truncate text-sm text-ink">{CONTACT.email}</span>
+                      <span className="block break-all text-sm text-ink">{CONTACT.email}</span>
                     </span>
                   </a>
 
@@ -194,7 +194,7 @@ export default function Contact() {
           </div>
 
           <Reveal delay={120} y={50}>
-            <div className="relative overflow-hidden rounded-3xl border border-ink/10 bg-panel/60 p-6 sm:p-8">
+            <div className="relative overflow-hidden rounded-3xl border border-ink/10 bg-panel/60 p-5 sm:p-8">
               <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-acid/50 to-transparent" />
 
               <div>
@@ -252,7 +252,7 @@ export default function Contact() {
                       </span>
                       <div className="min-w-0">
                         <h3 className="font-display text-lg font-bold text-ink">Email</h3>
-                        <p className="mt-1 truncate font-mono text-sm text-mist">{CONTACT.email}</p>
+                        <p className="mt-1 break-all font-mono text-sm text-mist">{CONTACT.email}</p>
                       </div>
                     </a>
                     <button

@@ -118,40 +118,42 @@ export default function Navbar() {
       </header>
 
       {open && (
-        <div className="fixed inset-0 z-40 flex flex-col justify-center bg-void/95 px-6 backdrop-blur-2xl md:hidden">
-          <div className="absolute left-1/2 top-1/3 h-72 w-72 -translate-x-1/2 rounded-full bg-acid/10 blur-3xl" />
-          <nav className="relative flex flex-col gap-2">
-            {navLinks.map((link, index) => (
-              <NavLink
-                key={link.path}
-                to={link.path}
-                className={({ isActive }) =>
-                  `menu-link flex items-center justify-between border-b border-ink/10 py-5 font-display text-4xl font-bold tracking-tight ${
-                    isActive ? 'text-acid' : 'text-ink'
-                  }`
-                }
-                style={{ '--d': `${120 + index * 90}ms` }}
+        <div className="fixed inset-0 z-40 overflow-y-auto bg-void/95 backdrop-blur-2xl md:hidden">
+          <div className="relative flex min-h-full flex-col justify-center px-6 py-28">
+            <div className="pointer-events-none absolute left-1/2 top-1/3 h-72 w-72 -translate-x-1/2 rounded-full bg-acid/10 blur-3xl" />
+            <nav className="relative flex flex-col gap-2">
+              {navLinks.map((link, index) => (
+                <NavLink
+                  key={link.path}
+                  to={link.path}
+                  className={({ isActive }) =>
+                    `menu-link flex items-center justify-between border-b border-ink/10 py-4 font-display text-3xl font-bold tracking-tight sm:py-5 sm:text-4xl ${
+                      isActive ? 'text-acid' : 'text-ink'
+                    }`
+                  }
+                  style={{ '--d': `${120 + index * 90}ms` }}
+                >
+                  <span>{link.name}</span>
+                  <span className="font-mono text-xs text-mist">0{index + 1}</span>
+                </NavLink>
+              ))}
+            </nav>
+            <div className="relative mt-10 flex flex-col gap-3 text-sm text-mist">
+              <a href={CONTACT.emailUrl} className="link-line w-fit max-w-full break-all text-ink">
+                {CONTACT.email}
+              </a>
+              <a
+                href={CONTACT.whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="link-line w-fit"
               >
-                <span>{link.name}</span>
-                <span className="font-mono text-xs text-mist">0{index + 1}</span>
-              </NavLink>
-            ))}
-          </nav>
-          <div className="relative mt-10 flex flex-col gap-3 text-sm text-mist">
-            <a href={CONTACT.emailUrl} className="link-line w-fit text-ink">
-              {CONTACT.email}
-            </a>
-            <a
-              href={CONTACT.whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="link-line w-fit"
-            >
-              {CONTACT.phoneDisplay}
-            </a>
-            <span className="font-mono text-xs uppercase tracking-[0.2em] text-mist/70">
-              Antananarivo, Madagascar
-            </span>
+                {CONTACT.phoneDisplay}
+              </a>
+              <span className="font-mono text-xs uppercase tracking-[0.2em] text-mist/70">
+                Antananarivo, Madagascar
+              </span>
+            </div>
           </div>
         </div>
       )}
